@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Restaurants</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .form-container { margin-bottom: 20px; }
+        #map { height: 500px; width: 100%; }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <h1>Search Restaurants Nearby</h1>
+    <div class="form-container">
+        <form method="POST">
+            <input type="text" name="address" value="{{ address }}" placeholder="Enter an address..." required>
+            <select name="type_cuisine">
+                <option value="restaurant" {% if type_cuisine == 'restaurant' %}selected{% endif %}>Restaurant</option>
+                <option value="cafe" {% if type_cuisine == 'cafe' %}selected{% endif %}>Café</option>
+                <option value="bar" {% if type_cuisine == 'bar' %}selected{% endif %}>Bar</option>
+                <option value="hotel" {% if type_cuisine == 'hotel' %}selected{% endif %}>Hotel</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    {% if results %}
+        <div id="map"></div>
+    {% elif address %}
+        <p>No results found for address: <strong>{{ address }}</strong></p>
+    {% endif %}
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        {% if results %}
+        const map = L.map('map').setView([{{ results[0].lat }}, {{ results[0].lon }}], 14);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        {% for resto in results %}
+        L.marker([{{ resto.lat }}, {{ resto.lon }}]).addTo(map)
+            .bindPopup("{{ resto.name }}");
+        {% endfor %}
+        {% endif %}
+    </script>
+</body>
+</html>

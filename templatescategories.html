@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories – FoodFinder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            padding: 2em;
+            color: #333;
+        }
+        h1 {
+            color: #ff6347;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 600px;
+            margin: auto;
+        }
+        li {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 6px solid #ff6347;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #555;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #ff6347;
+        }
+    </style>
+</head>
+<body>
+    <h1>??? Food Categories</h1>
+
+    {% if categories %}
+        <ul>
+            {% for cat in categories %}
+                <li>{{ cat }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="text-align: center;">No categories found.</p>
+    {% endif %}
+
+    <a href="/">? Back to Home</a>
+</body>
+</html>
